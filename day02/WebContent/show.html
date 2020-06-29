@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="./js/vue.js"></script>
+</head>
+<body>
+<div id='app'>
+	<ul>
+		<li v-for="(emp,index) in emps">
+		{{index}}:{{emp.name}}:{{emp.age}}:{{emp.hobby}}
+		</li>
+	</ul>
+	<ul>
+		<li v-for="(value,key,index) in emp">
+					{{index}}:{{key}}:{{value}}
+		</li>
+	</ul>
+	{{age}}<button @click="add">加</button><button @click="rem">减</button>
+</div>
+	<script type="text/javascript">
+		var app= new Vue({
+			el:"#app",
+			data:{
+				emps:[
+				      {name:'老段',age:10,hobby:'吹牛'},
+				      {name:'狗毛',age:10,hobby:'吃饭'},
+				      {name:'老三',age:10,hobby:'喝酒'},
+				      {name:'渣男',age:10,hobby:'撩妹'}
+				      ],
+				      emp:{name:'渣男',age:10,hobby:'撩妹'},
+				      age:10
+			},
+			methods:{
+				add:function(){
+					this.age++;
+				},
+				rem:function(){
+					this.age--;
+				}
+			}
+		})	
+	</script>
+</body>
+</html>
