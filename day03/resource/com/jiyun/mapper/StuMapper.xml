@@ -20,6 +20,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</association>
 	</resultMap>
 	<select id="findAll" resultMap="BaseMap">
-	SELECT * FROM stu,dept WHERE stu.depid=dept.depid
+		SELECT * FROM stu,dept WHERE stu.depid=dept.depid
 	</select>
+	<select id="findDept" resultType="Dept">
+		select * from dept
+	</select>
+	<update id="updateStu" parameterType="Stu">
+		update stu set sname=#{sname},age=#{age},sex=#{sex},depid=#{depid},birthday=#{birthday} where sid=#{sid}
+	</update>
+	<delete id="delStu">
+		delete from stu where sid in
+		<foreach separator="," close=")" open="(" item="id" collection="ids">#{id}</foreach>
+	</delete>
 </mapper>
