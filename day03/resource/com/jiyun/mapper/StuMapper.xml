@@ -19,8 +19,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="dname" property="dname"/>
 	</association>
 	</resultMap>
-	<select id="findAll" resultMap="BaseMap">
+	<select id="findAll" parameterType="StuVo" resultMap="BaseMap">
 		SELECT * FROM stu,dept WHERE stu.depid=dept.depid
+		<if test="stu.sname!=null and stu.sname!=''">
+			and sname like "%${sname}%"
+		</if>
+		<if test="stu.depid!=0">
+			and depid = #{stu.depid}
+		</if>
+		<if test="start!=null and srart!=''">
+			and birthday &gt; #{start}
+		</if>
+		<if test="end!=null and end!=''">
+			and birthday &lt; #{end}
+		</if>
 	</select>
 	<select id="findDept" resultType="Dept">
 		select * from dept

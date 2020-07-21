@@ -18,8 +18,16 @@
 </head>
 <body>
 <center>
-<a href="${pageContext.request.contextPath}/toAdd.do">添加</a>
 <div id="did">
+<a href="${pageContext.request.contextPath}/toAdd.do">添加</a>
+<input type="button" @click="del" value="删除"><br>
+姓名:<input type="text" v-model="stu.sname">
+地址:<select v-model="stu.depid">
+			<option value="0">--请选择--</option>
+			<option v-for="dept in dlist" :value="dept.depid" v-text="dept.dname"></option>
+		</select><br>
+生日:<input type="date" v-model="strat">--<input type="date" v-model="end"><br>
+<input type="button" value="查询" @click="jump(1)"><br>
 <table id="tid" border="1px" :class="flag2">
 	<tr>
 		<td>选择</td>
@@ -33,7 +41,7 @@
 		<td>操作</td>
 	</tr>
 
-	<tr v-for="(stu,index) in slist">
+	<tr v-for="(stu,index) in pageInfo">
 		<td><input type="checkbox" v-model="ids" :value="stu.sid"></td>
 		<td v-text="stu.sid"></td>
 		<td v-text="stu.sname">姓名</td>
@@ -45,7 +53,11 @@
 		<td><input type="button" @click="toUpdate(index)" value="修改"></td>
 	</tr>
 </table>
-<input type="button" @click="del" value="删除">
+当前页：{{page.pageNum}}/总页数{{page.pages}} &nbsp;&nbsp;&nbsp;总条数{page.total}<br>
+<input type="button" value="首页" @click="jump(page.firstPage)">
+<input type="button" value="上一页" @click="jump(page.prePage)">
+<input type="button" value="下一页" @click="jump(page.nextPage)">
+<input type="button" value="尾页" @click="jump(page.lastPage)">
 <form id="fid" action="" :class="flag">
 <input type="hidden" v-model="stu.sid"><br>
 	姓名:<input type="text" v-model="stu.sname"><br>
@@ -71,11 +83,16 @@
 			dlist:[],
 			flag:'hidden',
 			flag2:'show',
-			ids:[]
+			ids:[],
+			page:{},
+			start:'',
+			end:''
 		},
 		created(){
-			axios.post("${pageContext.request.contextPath}/findAll.do").then(function(res){
+			axios.post("${pageContext.request.contextPath}/findAll.do",{pageNum:1}).then(function(res){
 				table.slist = res.data;
+				table.page = res.data;
+				
 			});
 			axios.post("${pageContext.request.contextPath}/findDept.do").then(function(res){
 				table.dlist=res.data;

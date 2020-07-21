@@ -7,10 +7,11 @@ import org.apache.ibatis.annotations.Param;
 
 import com.jiyun.bean.Dept;
 import com.jiyun.bean.Stu;
+import com.jiyun.bean.StuVo;
 
 public interface StuMapper {
 
-	List<Stu> findAll();
+	List<Stu> findAll(StuVo stuvo);
 
 	List<Dept> findDept();
 
